@@ -10,13 +10,30 @@ app.set('view engine', 'ejs');
 
 //mongoinitialize
 var mongodb = require('mongodb');
-
-// Connection URL
 var url = 'mongodb://localhost:27017/dbso';
+var dbUser = "admin";
+var dbPass = "abc123";
+
 
 dbServer = new mongodb.Server('192.168.0.24',parseInt("27017"));
 db = new mongodb.Db("dbso", dbServer, {auto_reconnect: true});
-db.open();
+
+
+
+db.open(function(err,db){
+	if (err) throw new Error(err);
+	else{
+		console.log("db connected correctly");
+		db.authenticate(dbUser, dbPass, {authdb: "admin"}, function(err, res) { 
+			if (err) throw new Error(err);
+			else{
+				console.log("autenticacion yeah");
+			}
+		});
+	}
+});
+
+
 
 app.get('/',function(req,res){
 	res.send("Hola mundo");
