@@ -14,11 +14,15 @@ var mongodb = require('mongodb');
 // Connection URL
 var url = 'mongodb://localhost:27017/dbso';
 
-dbServer = new mongodb.Server('localhost',parseInt("27017"));
+dbServer = new mongodb.Server('192.168.0.24',parseInt("27017"));
 db = new mongodb.Db("dbso", dbServer, {auto_reconnect: true});
 db.open();
 
-app.get('/', function (req, res) {
+app.get('/',function(req,res){
+	res.send("Hola mundo");
+});
+
+app.get('/dbhealth', function (req, res) {
   	db.collection('users').find().toArray(function(err,actividades){
 		if (err) { res.end(JSON.stringify({'success':0})); }
 		res.end(JSON.stringify(actividades));
