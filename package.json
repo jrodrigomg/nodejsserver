@@ -1,0 +1,19 @@
+{
+  "name": "servidor",
+  "version": "1.0.0",
+  "description": "Servidor nodejs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrodrigomg/nodejsserver.git"
+  },
+  "author": "jrodrigomg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jrodrigomg/nodejsserver/issues"
+  },
+  "homepage": "https://github.com/jrodrigomg/nodejsserver#readme"
+}
