@@ -10,12 +10,11 @@ app.set('view engine', 'ejs');
 
 //mongoinitialize
 var mongodb = require('mongodb');
-var url = 'mongodb://localhost:27017/dbso';
 var dbUser = "admin";
 var dbPass = "abc123";
 
 
-dbServer = new mongodb.Server('192.168.0.24',parseInt("27017"));
+dbServer = new mongodb.Server('192.168.122.193',parseInt("27017"));
 db = new mongodb.Db("dbso", dbServer, {auto_reconnect: true});
 
 
