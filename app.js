@@ -54,7 +54,7 @@ db.open(function(err,db){
 
 
 
-app.get('/',function(req,res){
+app.get('/health',function(req,res){
 	res.send("Hola mundo");
 });
 
@@ -66,7 +66,7 @@ app.get('/dbhealth', function (req, res) {
 });
 
 
-app.get('/principal', function (req, res)
+app.get('/', function (req, res)
 {
     res.render('index.html');
 });
