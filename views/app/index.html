@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="message" ng-controller="menuCtrl">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title ng-bind="models.helloAngular"></title>
+    <link rel="stylesheet" type="text/css" href="css/angular-material.min.css">
+    <link rel="stylesheet" type="text/css" href="css/Site.css">
+
+    <!-- Angular con QR :P-->
+    <script type="text/javascript" src="js/Angular/angular.min.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-animate.min.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-aria.min.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-material.min.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-route.js"></script>
+  
+    <!-- Para ruteo -->
+    <script type="text/javascript" src="js/app.js"></script>
+
+    <!-- controladores -->
+    <script type="text/javascript" src="js/Controllers/menuController.js"></script>
+    <script type="text/javascript" src="js/Controllers/recientesController.js"></script>
+
+</head>
+    <body>
+    
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools">
+          <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+            <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg">
+            </md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <div layout="row" flex>
+        <md-sidenav layout="column" layout-fill class="md-sidenav-left md-whiteframe-4dp" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" flex>
+
+          <div class="content-box">
+            <div class="content-property">
+              Total Usuarios 
+            <div> 
+            <div class="content-property-data">
+              {{usuarios}}
+            </div>
+            <div class="content-property">
+              Total Tweets 
+            </div>
+            <div class="content-property-data">
+              {{mensajes}}
+            </div>
+            <div class="content-property">
+              Total Categorias  
+            </div>
+            <div class="content-property-data">
+              {{categorias}}
+            </div>
+            </div> 
+          </div>
+          </div>
+          <div class="btn-list" onclick="window.location.assign('#/Recientes')">
+                Recientes
+            </div>
+            <div class="btn-list" onclick="window.location.assign('#/buscar')">
+                Buscar
+            </div>
+            
+        </md-sidenav>
+        <div layout="column" flex id="content">
+          <md-content layout="column" flex class="md-padding">
+            <div ng-view></div>
+          </md-content>
+        </div>
+      </div>
+  </body>
+</html>      

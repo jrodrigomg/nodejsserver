@@ -10,27 +10,45 @@ app.set('view engine', 'ejs');
 
 //mongoinitialize
 var mongodb = require('mongodb');
+var mongojs = require('mongojs');
 var dbUser = "admin";
 var dbPass = "abc123";
 
+/*
+var db = mongojs('mongodb://92.168.122.11:27017,192.168.122.10:27017/dbso',['users']);
 
-dbServer = new mongodb.Server('192.168.122.193',parseInt("27017"));
-db = new mongodb.Db("dbso", dbServer, {auto_reconnect: true});
+db.on('error', function (err) {
+    console.log('database error', err);
+});
+db.on('connect', function () {
+    console.log('database connected');
+}); */
 
+
+
+dbServer1 = new mongodb.Server('192.168.122.10',parseInt("27017"));
+dbServer2 = new mongodb.Server('192.168.122.11',parseInt("27017"));
+repl = new mongodb.ReplSet([dbServer1,dbServer2],{
+	rs_name         : "rs0", //the name of the replicaset to connect to.
+    ha              : true, //turn on high availability --> I still have to test this, but so far its looking promising.
+    haInterval      : 2000, //time between each replicaset status check
+    reconnectWait   : 5000, //time to wait in miliseconds before attempting reconnect
+    retries         : 1000, //number of times to attempt a replicaset reconnect. // --> how do I set this to unlimited?
+    readPreference  : mongodb.Server.READ_SECONDARY, //the prefered read preference (Server.READ_PRIMARY, Server.READ_SECONDARY, Server.READ_SECONDARY_ONLY)
+    poolSize        : 4 //default poolSize for new server instances --> how do I determine the optimal pool size?
+});
+
+db = new mongodb.Db('dbso', repl,{auto_reconnect:true});
+//db = new mongodb.Db("dbso", dbServer, {auto_reconnect: true});
 
 
 db.open(function(err,db){
 	if (err) throw new Error(err);
 	else{
 		console.log("db connected correctly");
-		db.authenticate(dbUser, dbPass, {authdb: "admin"}, function(err, res) { 
-			if (err) throw new Error(err);
-			else{
-				console.log("autenticacion yeah");
-			}
-		});
+		
 	}
-});
+}); 
 
 
 
@@ -40,7 +58,7 @@ app.get('/',function(req,res){
 
 app.get('/dbhealth', function (req, res) {
   	db.collection('users').find().toArray(function(err,actividades){
-		if (err) { res.end(JSON.stringify({'success':0})); }
+		if (err) { res.end(JSON.stringify({'success':0, err:err})); }
 		res.end(JSON.stringify(actividades));
 	});
 });

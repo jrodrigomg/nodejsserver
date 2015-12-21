@@ -1,0 +1,31 @@
+<div layout="column" ng-cloak>
+  <md-toolbar class="my-toolbar">
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">Buscar</h2>
+    </div>
+  </md-toolbar>
+  <md-content flex layout-padding style="box-shadow: 2px 3px 15px #969696;">
+      <!--
+          Aqui meten el contenido
+      --> 
+     <div class="body-tool">
+       <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Usuario</label>
+              <input ng-model="usuario">
+            </md-input-container>
+            <md-button class="md-raised button-option">Buscar</md-button>
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Categoria</label>
+              <input ng-model="categoria">
+            </md-input-container>
+            <md-button class="md-raised">Buscar</md-button>
+       </div>
+        <div class="body-list repeat-animation " ng-repeat="mensajes in mensaje">
+            <div class="name-list" >{{mensajes.nombre}}</div>
+            <div class="category-list" >{{mensajes.categoria}}</div>
+            <div class="message-list" >{{mensajes.message}}</div>
+        </div>
+    </div>
+  </md-content>
+</div>

@@ -1,0 +1,18 @@
+<div class="body-tool" layout="column" ng-cloak>
+  <md-toolbar class="my-toolbar">
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">Mensajes recientes</h2>
+    </div>
+  </md-toolbar>
+  <md-content flex layout-padding style="box-shadow: 2px 3px 15px #969696;">
+        <!--
+            aqui le meten todo el amor <3
+        -->
+        <div class="body-list repeat-animation" ng-repeat="mensajes in mensaje">
+          <div class="name-list" >{{mensajes.nombre}}</div>
+          <div class="category-list" >{{mensajes.categoria}}</div>
+          <div class="message-list" >{{mensajes.message}}</div>
+        </div>
+
+  </md-content>
+</div>
