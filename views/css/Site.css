@@ -1,6 +1,13 @@
-﻿html, body {
+﻿
+@font-face {
+    font-family: myFirstFont;
+    src: url(../font/advent-pro/AdventPro-Medium.ttf);
+}
+
+html, body {
     min-height: 100% !important;
     height: 100%;
+    font-family: myFirstFont;
 }
 
 .body-tool{

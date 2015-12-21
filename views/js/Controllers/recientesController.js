@@ -15,9 +15,13 @@ message.controller('recientesCtrl', ['$scope', '$mdSidenav', '$window', function
     }
 
     function clearHeap(){
-    	for(var i=0;i<10;i++){
-    		$scope.mensaje.shift();
-    	}
+
+        $scope.mensaje=[];
+    	/*
+        for(var i=0;i<10;i++){
+            $scope.mensaje.shift();
+        }
+        */
     }
 
     setInterval(function() {
