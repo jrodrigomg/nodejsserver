@@ -112,11 +112,13 @@ md-sidenav {
 }
 
 .name-list{
-  color: rgb(0, 80, 169);
+  color:#4A8AE6;
   position: absolute;
   left: 5%;
   top:  5px;
   width: 45%;
+  font-size: 2em;
+  padding-bottom:10px;
 }
 
 .category-list{

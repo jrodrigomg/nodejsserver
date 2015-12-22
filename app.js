@@ -4,6 +4,23 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 
+io.set('transports', ['websocket']);
+
+contador = 0;
+io.sockets.on('connection',function(socket){ 
+	socket.on('sumar', function(){
+		contador = contador + 1;
+		io.sockets.emit('NewConnection',contador);
+		//socket.bradcast.emit('new message',data);
+	});
+
+	socket.on('nuevotweet', function(tweet){
+		io.sockets.emit('NewConnection',tweet);
+		//socket.bradcast.emit('new message',data);
+	});
+
+});
+
 
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
@@ -65,10 +82,24 @@ app.get('/dbhealth', function (req, res) {
 	});
 });
 
+app.get('/insert/usr/:usr/txt/:txt', function (req, res) {
+	var tweet = {user:req.params.usr,txt:req.params.txt};
+	db.collection('tweets').insert(tweet,function(err, records){
+      if (err) { res.end(JSON.stringify({'success':0})); }
+      res.end(JSON.stringify({'success':1}));
+    });
+    io.sockets.emit('nuevotweet',tweet);
+});
+
 
 app.get('/', function (req, res)
 {
     res.render('index.html');
+});
+
+app.get('/prueba', function (req, res)
+{
+    res.render('prueba.html');
 });
 
 /*
@@ -81,16 +112,7 @@ var server = app.listen(3000, function () {
 });
 */
 
-io.set('transports', ['websocket']);
 
-contador = 0;
-io.sockets.on('connection',function(socket){ 
-	socket.on('sumar', function(){
-		contador = contador + 1;
-		io.sockets.emit('NewConnection',contador);
-		//socket.bradcast.emit('new message',data);
-	});
-});
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
