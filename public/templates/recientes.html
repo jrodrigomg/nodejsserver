@@ -8,11 +8,11 @@
         <!--
            contenido
         -->
-        <div class="body-list repeat-animation" ng-repeat="mensajes in mensaje">
-          <div class="name-list" >{{mensajes.nombre}}</div>
-          <div class="name-list" >{{mensajes.alias}}</div>
-          <div class="category-list" >{{mensajes.categoria}}</div>
-          <div class="message-list" >{{mensajes.message}}</div>
+        <div class="body-list repeat-animation" ng-repeat="mensaje in mensajes">
+          <div class="name-list" >{{mensaje.user}}</div>
+          <div class="name-list" >{{mensaje.alias}}</div>
+          <div class="category-list" >{{mensaje.categoria}}</div>
+          <div class="message-list" >{{mensaje.txt}}</div>
         </div>
 
   </md-content>

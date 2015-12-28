@@ -1,17 +1,22 @@
 angular.module('controllers',['services'])
 .controller('recientesCtrl', ['$scope', '$mdSidenav', '$window','$socket', function ($scope, $mdSidenav, $window, $socket) {
-	$scope.mensaje = [];
-
+	$scope.mensajes = [];
+    $socket.on('tweets',function(tweets){
+        $scope.mensajes = [];
+        $scope.mensajes = tweets;
+        console.log($scope.mensajes);
+    });
+    /*
     $socket.on('nuevotweet',function(tweet){
+        $scope.mensaje = [];
         $scope.mensaje.push({
             nombre:  tweet.user,
             alias: tweet.alias,
             message: tweet.txt,
             categoria: tweet.categoria
         });
-        if($scope.mensaje.length > 10)
-            $scope.mensaje.shift();
-    });
+
+    });*/
 
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
@@ -27,7 +32,7 @@ message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window', function ($
 
     function callWS(){
     	for(var i=0;i<10;i++){
-    		$scope.mensaje.push({
+    		$scope.mensajes.push({
     			nombre: "Nombre"+Math.floor((Math.random() * 10) + 1),
     			message: "Hola este es mi twt"+Math.floor((Math.random() * 10) + 1),
     			categoria: "categoria"+Math.floor((Math.random() * 10) + 1)
@@ -37,11 +42,11 @@ message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window', function ($
 
     function clearHeap(){
     	for(var i=0;i<10;i++){
-    		$scope.mensaje.shift();
+    		$scope.mensajes.shift();
     	}
     }
 
-    setInterval(function() {
+    /*setInterval(function() {
   	// method to be executed;
   	  $scope.$apply(function() {
             clearHeap();
@@ -49,7 +54,7 @@ message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window', function ($
         });
 	}, 5000);
 
-	callWS();
+	callWS();*/
 }])
 
 .controller('menuCtrl', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {

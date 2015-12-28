@@ -14,6 +14,16 @@ io.sockets.on('connection',function(socket){
 		//socket.bradcast.emit('new message',data);
 	});
 
+	setInterval(function(){
+		db.collection('tweets').find({},{limit:10}).toArray(function(err,tweets){
+		if(err){}else{
+			console.log("emitiendo tweets");
+			socket.emit('tweets',tweets);
+		}
+	});
+	},10000);
+	
+
 	socket.on('nuevotweet', function(tweet){
 		io.sockets.emit('NewConnection',tweet);
 		//socket.bradcast.emit('new message',data);
