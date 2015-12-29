@@ -15,7 +15,7 @@ io.sockets.on('connection',function(socket){
 	});
 
 	setInterval(function(){
-		db.collection('tweets').find({},{limit:10}).toArray(function(err,tweets){
+		db.collection('tweets').find({},{sort: [['_id','descending']],limit:10}).toArray(function(err,tweets){
 		if(err){}else{
 			console.log("emitiendo tweets");
 			socket.emit('tweets',tweets);
