@@ -92,8 +92,13 @@ app.get('/dbhealth', function (req, res) {
 	});
 });
 
-app.get('/insert/usr/:usr/txt/:txt', function (req, res) {
-	var tweet = {user:req.params.usr,txt:req.params.txt};
+app.get('/insert', function (req, res) {
+	var user = req.query.usr;
+	var nombre = req.query.nom;
+	var txt = req.query.txt;
+	var url = req._parsedUrl.pathname;
+	console.log(req._parsedUrl);
+	var tweet = {user:user,nombre:nombre,txt:txt};
 	db.collection('tweets').insert(tweet,function(err, records){
       if (err) { res.end(JSON.stringify({'success':0})); }
       res.end(JSON.stringify({'success':1}));
