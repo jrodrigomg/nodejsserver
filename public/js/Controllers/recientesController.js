@@ -4,7 +4,6 @@ angular.module('controllers',['services'])
     $socket.on('tweets',function(tweets){
         $scope.mensajes = [];
         $scope.mensajes = tweets;
-        console.log($scope.mensajes);
     });
     /*
     $socket.on('nuevotweet',function(tweet){
@@ -24,27 +23,28 @@ angular.module('controllers',['services'])
 
 }]);
 
-message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window', function ($scope, $mdSidenav, $window) {
-	$scope.mensaje = [];
+message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window','$socket', function ($scope, $mdSidenav, $window,$socket) {
+	$scope.mensajes = [];
+    $scope.usuario = "";
+    $scope.categoria = "";
+     $socket.on('tweetsf',function(tweets){
+        $scope.mensajes = [];
+        $scope.mensajes = tweets;
+    });
+
+    $scope.searchTweets = function(type){
+        if(type==1){
+            console.log('emitiendo'+type+$scope.usuario);
+            $socket.emit('searchTweets',type,$scope.usuario);
+        }else{
+            console.log('emitiendo'+type+$scope.categoria);
+            $socket.emit('searchTweets',type,$scope.categoria);
+        }
+        $scope.mensaje = [];
+    }
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
     };
-
-    function callWS(){
-    	for(var i=0;i<10;i++){
-    		$scope.mensajes.push({
-    			nombre: "Nombre"+Math.floor((Math.random() * 10) + 1),
-    			message: "Hola este es mi twt"+Math.floor((Math.random() * 10) + 1),
-    			categoria: "categoria"+Math.floor((Math.random() * 10) + 1)
-    		});
-   		}
-    }
-
-    function clearHeap(){
-    	for(var i=0;i<10;i++){
-    		$scope.mensajes.shift();
-    	}
-    }
 
     /*setInterval(function() {
   	// method to be executed;
@@ -57,7 +57,7 @@ message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window', function ($
 	callWS();*/
 }])
 
-.controller('menuCtrl', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {
+.controller('menuCtrl', ['$scope', '$mdSidenav', '$socket', function ($scope, $mdSidenav, $socket) {
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
     };
@@ -65,19 +65,30 @@ message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window', function ($
     $scope.usuarios   = 0;
     $scope.mensajes   = 0;
     $scope.categorias = 0;
-    
-    setInterval(function() {
-    // method to be executed;
-      $scope.$apply(function() {
-            callWS();
-        });
-    }, 3000);
 
-     function callWS(){
-            $scope.usuarios   +=   Math.floor((Math.random() * 2) + 1);
-            $scope.mensajes   +=   Math.floor((Math.random() * 10) + 1);
-            $scope.categorias +=   Math.floor((Math.random() * 2) + 1);
+    $scope.usermax = {};
+    $scope.categoriamax = {};
 
-    }
+    $socket.on('tweetsc',function(count){
+        if(count>0){
+            $scope.mensajes = count;
+        }
+    });
+
+    $socket.on('usersc',function(count){
+        if(count>0){
+            $scope.usuarios = count;
+        }
+    });
+
+    $socket.on('categoriasc',function(count){
+        if(count>0){
+            $scope.categorias = count;
+        }
+    });
+
+    $socket.on('usermax',function(resultado){
+        $scope.usermax = resultado;
+    });
 
 }]);

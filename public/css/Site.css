@@ -8,6 +8,13 @@ html, body {
     min-height: 100% !important;
     height: 100%;
     font-family: myFirstFont;
+
+    background-color: white;
+}
+
+
+.caja2{
+  background-color: #F84F4F !important;
 }
 
 .body-tool{
@@ -76,9 +83,9 @@ html, body {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
-  color: rgb(89, 89, 89);
+  color:white;
   font-size: 17px;
-  background-color: rgb(255, 255, 255);
+  background-color: #429DAE;
   padding: 10%;
 }
 .content-property{
@@ -108,8 +115,14 @@ html, body {
   border-width: 1px;
   border-radius: 5px;
   border-color: rgb(197, 197, 197);
-  background-color: #0E39B0;
+  background-color: #65E870;
   margin: 1px;
+  cursor: pointer;
+}
+
+.body-list:hover{
+  background-color: #70ADE5;
+  color:white;
 }
 
 .name-list{
@@ -137,7 +150,7 @@ html, body {
   left: 5%;
   top:  25px;
   width: 90%;
-  color:#5BEFE6;
+  color:#3F7C55;
 }
 
 .btn-list{
@@ -150,8 +163,12 @@ html, body {
     color: white;
     cursor:pointer;
 /*    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
- */   background-color: rgba(255, 255, 255, 0);
+ */ background-color: #934ECC;
+    -webkit-transition:1s; /* Safari */
+    -moz-transition: 1s;
+    transition: 1s;
 }
+
 
 .btn-list:hover {
     padding-top: 15px;

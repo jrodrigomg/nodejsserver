@@ -7,6 +7,9 @@ var io = require('socket.io')(http);
 io.set('transports', ['websocket']);
 
 contador = 0;
+var type = 0;
+var value = "";
+
 io.sockets.on('connection',function(socket){ 
 	socket.on('sumar', function(){
 		contador = contador + 1;
@@ -16,13 +19,54 @@ io.sockets.on('connection',function(socket){
 
 	setInterval(function(){
 		db.collection('tweets').find({},{sort: [['_id','descending']],limit:10}).toArray(function(err,tweets){
-		if(err){}else{
-			console.log("emitiendo tweets");
-			socket.emit('tweets',tweets);
+			if(err){}else{
+				socket.emit('tweets',tweets);
+			}
+		});
+
+		db.collection('tweets').aggregate([{$group: {_id:"$user", count:{$sum:1}}},{$sort:{count:-1}}, {$limit:1}])
+		.toArray(function(err,resultado){
+			if(err){}else{
+				socket.emit('usermax',resultado[0]);
+			}
+		});
+
+		db.collection('tweets').find({}).count(function(err,count){
+			if(err){}else{
+				socket.emit('tweetsc',count);
+			}
+		});
+
+		db.collection('tweets').distinct('user',function(err,docs){
+			if(err){}else{
+				socket.emit('usersc',docs.length);
+			}
+		});
+
+	},7000);
+
+	setInterval(function(){
+		if(type!= 0){
+			if(type==1){
+				db.collection('tweets').find({user:value},{sort: [['_id','descending']],limit:10}).toArray(function(err,tweets){
+					if(err){}else{
+						socket.emit('tweetsf',tweets);
+					}
+				});
+			}else{
+				db.collection('tweets').find({categoria:value},{sort: [['_id','descending']],limit:10}).toArray(function(err,tweets){
+					if(err){}else{
+						socket.emit('tweetsf',tweets);
+					}
+				});
+			}
 		}
-	});
-	},10000);
+	},7000);
 	
+	socket.on('searchTweets',function(tipo, valor){
+		value = valor;
+		type = tipo;
+	});
 
 	socket.on('nuevotweet', function(tweet){
 		io.sockets.emit('NewConnection',tweet);
@@ -97,7 +141,6 @@ app.get('/insert', function (req, res) {
 	var nombre = req.query.nom;
 	var txt = req.query.txt;
 	var url = req._parsedUrl.pathname;
-	console.log(req._parsedUrl);
 	var tweet = {user:user,nombre:nombre,txt:txt};
 	db.collection('tweets').insert(tweet,function(err, records){
       if (err) { res.end(JSON.stringify({'success':0})); }

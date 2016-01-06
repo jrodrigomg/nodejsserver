@@ -14,13 +14,20 @@
               <label>Usuario</label>
               <input ng-model="usuario">
             </md-input-container>
-            <md-button class="md-raised button-option">Buscar</md-button>
+            <md-button class="md-raised button-option" ng-click = "searchTweets(1)">Buscar</md-button>
             <md-input-container class="md-block" flex-gt-sm>
               <label>Categoria</label>
               <input ng-model="categoria">
             </md-input-container>
-            <md-button class="md-raised">Buscar</md-button>
+            <md-button class="md-raised" ng-click = "searchTweets(2)">Buscar</md-button>
        </div>
+
+       <div class="body-list repeat-animation" ng-repeat="mensaje in mensajes">
+          <div class="name-list" >{{mensaje.user}}</div>
+          <div class="name-list" >{{mensaje.alias}}</div>
+          <div class="category-list" >{{mensaje.categoria}}</div>
+          <div class="message-list" >{{mensaje.txt}}</div>
+        </div>
        <!--
         <div class="body-list repeat-animation " ng-repeat="mensajes in mensaje">
             <div class="name-list" >{{mensajes.nombre}}</div>
