@@ -91,4 +91,8 @@ message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window','$socket', f
         $scope.usermax = resultado;
     });
 
+    $socket.on('categoriamax',function(resultado){
+        $scope.categoriamax = resultado;
+    });
+
 }]);

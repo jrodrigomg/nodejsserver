@@ -31,9 +31,11 @@
     <script src="/bower_components/angular-socket-io/socket.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 
+    <!--HUMMINGBIRD-->
+    <script src="js/lib/hummingbird.js"></script>
 </head>
     <body>
-    
+      <script>HummingbirdTracker.track(); </script>
       <div layout="row" flex>
         <md-sidenav layout="column" layout-fill class="md-sidenav-left md-whiteframe-4dp" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" flex>
 

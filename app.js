@@ -31,6 +31,13 @@ io.sockets.on('connection',function(socket){
 			}
 		});
 
+		db.collection('tweets').aggregate([{$group: {_id:"$categoria", count:{$sum:1}}},{$sort:{count:-1}}, {$limit:1}])
+		.toArray(function(err,resultado){
+			if(err){}else{
+				socket.emit('categoriamax',resultado[0]);
+			}
+		});
+
 		db.collection('tweets').find({}).count(function(err,count){
 			if(err){}else{
 				socket.emit('tweetsc',count);
@@ -40,6 +47,12 @@ io.sockets.on('connection',function(socket){
 		db.collection('tweets').distinct('user',function(err,docs){
 			if(err){}else{
 				socket.emit('usersc',docs.length);
+			}
+		});
+
+		db.collection('tweets').distinct('categoria',function(err,docs){
+			if(err){}else{
+				socket.emit('categoriasc',docs.length);
 			}
 		});
 
@@ -140,8 +153,23 @@ app.get('/insert', function (req, res) {
 	var user = req.query.usr;
 	var nombre = req.query.nom;
 	var txt = req.query.txt;
-	var url = req._parsedUrl.pathname;
-	var tweet = {user:user,nombre:nombre,txt:txt};
+	
+	var categoria = "";
+	if(req.query.txt){
+		var tmp1 = req.query.txt.split("$");
+		if(tmp1.length>1){
+			var tmp2 = tmp1[1].split(' ');
+			if(tmp2.length>0){
+				categoria = tmp2[0];
+				var tweet = {user:user,nombre:nombre,txt:txt,categoria:categoria};
+			}else{
+				var tweet = {user:user,nombre:nombre,txt:txt};
+			}
+		}else{
+			var tweet = {user:user,nombre:nombre,txt:txt};
+		}
+	}
+	
 	db.collection('tweets').insert(tweet,function(err, records){
       if (err) { res.end(JSON.stringify({'success':0})); }
       res.end(JSON.stringify({'success':1}));
