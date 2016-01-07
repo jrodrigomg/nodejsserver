@@ -31,7 +31,7 @@ io.sockets.on('connection',function(socket){
 			}
 		});
 
-		db.collection('tweets').aggregate([{$group: {_id:"$categoria", count:{$sum:1}}},{$sort:{count:-1}}, {$limit:1}])
+		db.collection('tweets').aggregate([{$match:{"categoria":{$exists:true}}},{$group: {_id:"$categoria", count:{$sum:1}}},{$sort:{count:-1}}, {$limit:1}])
 		.toArray(function(err,resultado){
 			if(err){}else{
 				socket.emit('categoriamax',resultado[0]);
@@ -66,10 +66,22 @@ io.sockets.on('connection',function(socket){
 						socket.emit('tweetsf',tweets);
 					}
 				});
+
+				db.collection('tweets').find({user:value}).count(function(err,count){
+					if(err){}else{
+						socket.emit('tweetscf',count);
+					}
+				});
 			}else{
 				db.collection('tweets').find({categoria:value},{sort: [['_id','descending']],limit:10}).toArray(function(err,tweets){
 					if(err){}else{
 						socket.emit('tweetsf',tweets);
+					}
+				});
+
+				db.collection('tweets').find({categoria:value}).count(function(err,count){
+					if(err){}else{
+						socket.emit('tweetscf',count);
 					}
 				});
 			}
@@ -155,7 +167,7 @@ app.get('/dbhealth', function (req, res) {
 
 app.get('/insert', function (req, res) {
 	var user = req.query.usr;
-	var nombre = req.query.nom;
+	var nombre = req.query.nombre;
 	var txt = req.query.txt;
 	
 	var categoria = "";

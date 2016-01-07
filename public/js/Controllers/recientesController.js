@@ -27,12 +27,25 @@ message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window','$socket', f
 	$scope.mensajes = [];
     $scope.usuario = "";
     $scope.categoria = "";
-     $socket.on('tweetsf',function(tweets){
+    $scope.type = 0;
+    $scope.info = {};
+
+
+    $socket.on('tweetsf',function(tweets){
         $scope.mensajes = [];
         $scope.mensajes = tweets;
+        $scope.info.alias = tweets[0].user;
+        $scope.info.nombre = tweets[0].nombre;
+    });
+
+
+    $socket.on('tweetscf',function(count){
+        $scope.info.tweets = count;
     });
 
     $scope.searchTweets = function(type){
+        $scope.type = type;
+        $scope.info  = {};
         if(type==1){
             console.log('emitiendo'+type+$scope.usuario);
             $socket.emit('searchTweets',type,$scope.usuario);
@@ -42,6 +55,7 @@ message.controller('buscarCtrl', ['$scope', '$mdSidenav', '$window','$socket', f
         }
         $scope.mensaje = [];
     }
+
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
     };

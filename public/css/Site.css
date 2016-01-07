@@ -8,17 +8,35 @@ html, body {
     min-height: 100% !important;
     height: 100%;
     font-family: myFirstFont;
-
     background-color: white;
 }
 
+.caja{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor:pointer;
+  -moz-transition:0.5s;
+  -webkit-transition:0.5s;
+  transition:0.5s;
+}
+
+.caja:hover{
+  background-color: #60F19B !important;
+  font-size: 1.5em !important;
+}
 
 .caja2{
   background-color: #F84F4F !important;
 }
 
+.caja3{
+  background-color: #DD558D !important;
+  margin-bottom: 10px;
+}
+
+
 .body-tool{
-      min-width: 80%;
+  min-width: 80%;
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;

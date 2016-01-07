@@ -3,6 +3,28 @@
     <div class="md-toolbar-tools">
       <h2 class="md-flex">Buscar</h2>
     </div>
+    <div class="content-box caja caja3">
+    <div class="content-property" ng-if="type==1">
+      Alias
+    </div>
+    <div> 
+    <div class="content-property-data" ng-if="type==1">
+      {{info.alias}}
+    </div>
+      <div class="content-property" ng-if="type==1">
+        Nombre
+      </div>
+      <div class="content-property-data" ng-if="type==1">
+        {{info.nombre}}
+      </div>
+      <div class="content-property">
+        Tweets 
+      </div>
+      <div class="content-property-data">
+        {{info.tweets}}
+      </div>
+    </div> 
+    </div>
   </md-toolbar>
   <md-content flex layout-padding style="box-shadow: 2px 3px 15px #969696;">
       <!--
@@ -22,12 +44,14 @@
             <md-button class="md-raised" ng-click = "searchTweets(2)">Buscar</md-button>
        </div>
 
-       <div class="body-list repeat-animation" ng-repeat="mensaje in mensajes">
+       <div class="body-list repeat-animation" ng-repeat="mensaje in mensajes" ng-if = "type!=0">
           <div class="name-list" >{{mensaje.user}}</div>
           <div class="name-list" >{{mensaje.alias}}</div>
           <div class="category-list" >{{mensaje.categoria}}</div>
           <div class="message-list" >{{mensaje.txt}}</div>
         </div>
+
+
        <!--
         <div class="body-list repeat-animation " ng-repeat="mensajes in mensaje">
             <div class="name-list" >{{mensajes.nombre}}</div>
