@@ -19,7 +19,7 @@ io.sockets.on('connection',function(socket){
 
 	setInterval(function(){
 		db.collection('tweets').find({},{sort: [['_id','descending']],limit:10}).toArray(function(err,tweets){
-			if(err){}else{
+			if(err){console.error(err);}else{
 				socket.emit('tweets',tweets);
 			}
 		});
@@ -110,21 +110,25 @@ db.on('connect', function () {
     console.log('database connected');
 }); */
 
-
-
-dbServer1 = new mongodb.Server('192.168.2.31',parseInt("27017"));
-dbServer2 = new mongodb.Server('192.168.2.32',parseInt("27017"));
+//servers
+dbServer1 = new mongodb.Server('192.168.2.31',parseInt("27017"), {auto_reconnect:true});
+dbServer2 = new mongodb.Server('192.168.2.32',parseInt("27017"), {auto_reconnect:true});
 repl = new mongodb.ReplSet([dbServer1,dbServer2],{
 	rs_name         : "rs0", //the name of the replicaset to connect to.
     ha              : true, //turn on high availability --> I still have to test this, but so far its looking promising.
-    haInterval      : 2000, //time between each replicaset status check
-    reconnectWait   : 5000, //time to wait in miliseconds before attempting reconnect
-    retries         : 1000, //number of times to attempt a replicaset reconnect. // --> how do I set this to unlimited?
-    readPreference  : mongodb.Server.READ_SECONDARY, //the prefered read preference (Server.READ_PRIMARY, Server.READ_SECONDARY, Server.READ_SECONDARY_ONLY)
-    poolSize        : 4 //default poolSize for new server instances --> how do I determine the optimal pool size?
+    haInterval      : 1000, //time between each replicaset status check
+    reconnectWait   : 1000, //time to wait in miliseconds before attempting reconnect
+    retries         : 30, //number of times to attempt a replicaset reconnect. // --> how do I set this to unlimited?
+    readPreference  : mongodb.Server.NEAREST, //the prefered read preference (Server.READ_PRIMARY, Server.READ_SECONDARY, Server.READ_SECONDARY_ONLY)
+    poolSize        : 4 ,//default poolSize for new server instances --> how do I determine the optimal pool size?
+    socketOptions 	: {	
+    	connectTimeoutMS: 1000,
+    	keepAlive: 1,
+    	socketTimeoutMS: 1000
+    }
 });
 
-db = new mongodb.Db('dbso', repl,{auto_reconnect:true});
+db = new mongodb.Db('dbso', repl ,{w:0, auto_reconnect:true,native_parser:true, slaveOk: true});
 //db = new mongodb.Db("dbso", dbServer, {auto_reconnect: true});
 
 
