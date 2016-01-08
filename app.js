@@ -126,7 +126,9 @@ db.on('connect', function () {
 //servers
 dbServer1 = new mongodb.Server('192.168.2.31',parseInt("27017"), {auto_reconnect:true});
 dbServer2 = new mongodb.Server('192.168.2.32',parseInt("27017"), {auto_reconnect:true});
-repl = new mongodb.ReplSet([dbServer1,dbServer2],{
+
+repl = new mongodb.ReplSet([dbServer1,dbServer2]);
+/*repl = new mongodb.ReplSet([dbServer1,dbServer2],{
 	rs_name         : "rs0", //the name of the replicaset to connect to.
     ha              : true, //turn on high availability --> I still have to test this, but so far its looking promising.
     haInterval      : 5000, //time between each replicaset status check
@@ -139,8 +141,7 @@ repl = new mongodb.ReplSet([dbServer1,dbServer2],{
     	keepAlive: 1,
     	socketTimeoutMS: 5000
     }
-});
-
+});*/
 db = new mongodb.Db('dbso', repl ,{w:0, auto_reconnect:true,native_parser:true, slaveOk: true});
 //db = new mongodb.Db("dbso", dbServer, {auto_reconnect: true});
 
