@@ -130,9 +130,9 @@ repl = new mongodb.ReplSet([dbServer1,dbServer2],{
     ha              : true, //turn on high availability --> I still have to test this, but so far its looking promising.
     haInterval      : 5000, //time between each replicaset status check
     reconnectWait   : 5000, //time to wait in miliseconds before attempting reconnect
-    retries         : 30, //number of times to attempt a replicaset reconnect. // --> how do I set this to unlimited?
+    retries         : 100, //number of times to attempt a replicaset reconnect. // --> how do I set this to unlimited?
     readPreference  : mongodb.Server.NEAREST, //the prefered read preference (Server.READ_PRIMARY, Server.READ_SECONDARY, Server.READ_SECONDARY_ONLY)
-    poolSize        : 4 ,//default poolSize for new server instances --> how do I determine the optimal pool size?
+    poolSize        : 10 ,//default poolSize for new server instances --> how do I determine the optimal pool size?
     socketOptions 	: {	
     	connectTimeoutMS: 5000,
     	keepAlive: 1,
@@ -187,8 +187,7 @@ app.get('/insert', function (req, res) {
 	}
 	
 	db.collection('tweets').insert(tweet,function(err, records){
-      if (err) { res.end(JSON.stringify({'success':0})); }
-      res.end(JSON.stringify({'success':1}));
+      res.end("1");
     });
 });
 
