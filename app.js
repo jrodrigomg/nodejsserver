@@ -106,6 +106,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
+
 //mongoinitialize
 var mongodb = require('mongodb');
 var mongojs = require('mongojs');

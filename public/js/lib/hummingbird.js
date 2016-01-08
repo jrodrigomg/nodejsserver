@@ -8,7 +8,7 @@ HummingbirdTracker = {
     env.bh = window.innerHeight;
 
     // example of sending a cookie named 'guid'
-    // env.guid = (document.cookie.match(/guid=([^\_]*)_([^;]*)/) || [])[2];
+    env.guid = (document.cookie.match(/guid=([^\_]*)_([^;]*)/) || [])[2];
 
     if(document.referrer && document.referrer != "") {
       env.ref = document.referrer;

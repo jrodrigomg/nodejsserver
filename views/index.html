@@ -33,9 +33,12 @@
 
     <!--HUMMINGBIRD-->
     <script src="js/lib/hummingbird.js"></script>
+     <script src="js/lib/file_watcher.js"></script>
+      <script src="js/lib/udpSocketInterval.js"></script>
 </head>
     <body>
-      <script>HummingbirdTracker.track(); </script>
+      <script>HummingbirdTracker.track({logged_in:true}); </script>
+      <img id="tracking-pixel" src="http://localhost:8000/tracking_pixel.gif" alt="data analytics" />
       <div layout="row" flex>
         <md-sidenav layout="column" layout-fill class="md-sidenav-left md-whiteframe-4dp" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" flex>
 
