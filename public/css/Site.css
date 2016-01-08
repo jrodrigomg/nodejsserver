@@ -136,6 +136,9 @@ html, body {
   background-color: #65E870;
   margin: 1px;
   cursor: pointer;
+  -webkit-transition:1s; /* Safari */
+    -moz-transition: 1s;
+    transition: 1s;
 }
 
 .body-list:hover{
